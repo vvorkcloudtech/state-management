@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-
+import data from "./data";
 class App extends Component {
   state = {
     counter: 1,
-    show: true
+    show: true,
+    data: data
   };
   handleAdd = () => {
     console.log("add function runs ", this.state.counter);
 
-    // this.state.counter = this.state.counter + 1;
     this.setState({
       counter: this.state.counter + 1
     });
@@ -25,7 +25,27 @@ class App extends Component {
       counter = counter + 1;
       console.log("this is render counter", counter);
     };
-
+    let response = this.state.data.map((item, index) => {
+      return (
+        <div key={index}>
+          <p className="name">Name: {item.name}</p>
+          <p>Age: {item.age}</p>
+          <div>
+            Qualification<h1>{item.qualification.graduation}</h1>
+            adress: <h1>{item.address}</h1>
+            email: <h3>{item.email}</h3>
+            contact: <h4>{item.contact}</h4>
+            <img src={`{item.img}`} alt="" />
+            Skills
+            <h5>
+              {item.skills.map((skill, index) => {
+                return <p key={index}> {skill}</p>;
+              })}{" "}
+            </h5>
+          </div>
+        </div>
+      );
+    });
     return (
       <div>
         {this.state.show ? (
@@ -40,6 +60,7 @@ class App extends Component {
           <button onClick={handleAdd}>Render ADD</button>
           <button onClick={this.handleShow}>Hide/Show</button>
         </div>
+        {response}
       </div>
     );
   }
