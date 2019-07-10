@@ -1,21 +1,74 @@
 import React, { Component } from "react";
-import Users from "./Users";
-import Haseeb from "./haseeb";
 
 class App extends Component {
   state = {
-    age: 230,
-    email: "eemail.com"
+    value: "",
+    task: []
+  };
+  handleChange = e => {
+    this.setState({
+      value: e.target.value
+    });
+  };
+  handleSubmit = (e, v) => {
+    e.preventDefault();
+    // console.log(v);
+    this.setState({
+      task: [...this.state.task, this.state.value],
+      value: ""
+    });
+  };
+  handleDelete = index => {
+    console.log("handle delete clicked", this.state.task[index]);
+    let task = this.state.task;
+    task.splice(index, 1);
+
+    this.setState({
+      task: task
+    });
   };
   render() {
-    const { age, email } = this.state;
-    // console.log(this.state.age, this.state.email);
+    console.log(this.state);
+    let response = this.state.task.map((task, index) => {
+      return (
+        <tr key={index}>
+          <th scope="row">{index + 1}</th>
+          <td>{task}</td>
+          <td>
+            <button
+              className="btn btn-danger"
+              onClick={() => this.handleDelete(index)}
+            >
+              DELETE
+            </button>
+            <button className="btn btn-info">EDIT</button>
+            <button className="btn btn-success">MOVE-UP</button>
+            <button className="btn btn-success">MOVE-DOWN</button>
+          </td>
+        </tr>
+      );
+    });
     return (
       <div>
-        Hello App
-        <Users data={this.state}>
-          <Haseeb age={20} />
-        </Users>
+        <form onSubmit={this.handleSubmit}>
+          TASK:{" "}
+          <input
+            type="text"
+            value={this.state.value}
+            onChange={this.handleChange}
+          />
+          <button>ADD TASK</button>
+        </form>
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Task</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>{response}</tbody>
+        </table>
       </div>
     );
   }
