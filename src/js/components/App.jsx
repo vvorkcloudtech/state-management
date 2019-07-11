@@ -27,6 +27,32 @@ class App extends Component {
       task: task
     });
   };
+  handleMoveUp = index => {
+    if (index == 0) {
+      alert("sorry");
+    } else {
+      let task = this.state.task;
+      let temp = task[index];
+      task[index] = task[index - 1];
+      task[index - 1] = temp;
+      this.setState({
+        task: task
+      });
+    }
+  };
+  handleMoveDown = index => {
+    if (index == this.state.task.length - 1) {
+      alert("sorry");
+    } else {
+      let task = this.state.task;
+      let temp = task[index];
+      task[index] = task[index + 1];
+      task[index + 1] = temp;
+      this.setState({
+        task: task
+      });
+    }
+  };
   render() {
     console.log(this.state);
     let response = this.state.task.map((task, index) => {
@@ -42,8 +68,18 @@ class App extends Component {
               DELETE
             </button>
             <button className="btn btn-info">EDIT</button>
-            <button className="btn btn-success">MOVE-UP</button>
-            <button className="btn btn-success">MOVE-DOWN</button>
+            <button
+              className="btn btn-success"
+              onClick={() => this.handleMoveUp(index)}
+            >
+              MOVE-UP
+            </button>
+            <button
+              className="btn btn-success"
+              onClick={() => this.handleMoveDown(index)}
+            >
+              MOVE-DOWN
+            </button>
           </td>
         </tr>
       );
